@@ -13,7 +13,7 @@ const {
 const {isLoggedin,isAuthor,validateCampground} = require("../middleware");
 const multer = require('multer');
 const { storage } = require('../config/cloudinary');
-const upload = multer({ storage });
+const upload = multer({ storage});
 
 
 // isLoggedin, upload.array('image'), validateCampground,catchAsync(createCampground)
@@ -22,11 +22,7 @@ router.get("/", catchAsync(index))
 
 router.get("/new",isLoggedin,renderForm)
 
-router.post("/",  (req,res)=>{
-    console.log(req.body);
-    console.log(req.files);
-    res.send("worked")
-})
+router.post("/",  isLoggedin, upload.array('image'), validateCampground,catchAsync(createCampground))
 
 router.get("/:id",catchAsync(showCampground))
 
